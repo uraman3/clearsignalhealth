@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClearSignal Health — AI & Breast Cancer Health Literacy</title>
+  <meta name="description" content="Bridging the gap between AI-driven cancer detection and the communities it serves. Community education, advocacy, and health literacy for women in the Pacific Northwest." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:       #8B1A4A;
+      --rose-mid:   #B5264F;
+      --rose-light: #F9E8EF;
+      --rose-pale:  #FDF5F8;
+      --charcoal:   #1C1C2E;
+      --ink:        #2E2E3E;
+      --muted:      #6B6275;
+      --border:     #E8D5DF;
+      --white:      #FFFFFF;
+      --signal:     #C8395E;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--rose);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 100px 2rem 80px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      max-width: 900px; margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose-mid);
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 32px; height: 2px;
+      background: var(--rose-mid);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--charcoal);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.4rem;
+    }
+    .hero h1 span { color: var(--rose); }
+
+    /* ECG / signal line — the signature element */
+    .signal-line {
+      width: 100%;
+      max-width: 480px;
+      height: 48px;
+      margin: 1.8rem 0 2rem;
+    }
+    .signal-line path {
+      stroke: var(--rose-mid);
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .signal-line .pulse {
+      stroke: var(--rose);
+      stroke-width: 3;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: draw 2.4s ease forwards 0.5s;
+    }
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .hero-tagline {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero-tagline strong { color: var(--ink); font-weight: 500; }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rose); display: inline-block; }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 2rem; }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--rose-mid);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 640px;
+    }
+    .section-body + .section-body { margin-top: 1rem; }
+
+    /* ── PROBLEM ── */
+    #problem { background: var(--rose-pale); }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--rose);
+      padding: 1.5rem;
+      border-radius: 2px;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--rose);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── APPROACH ── */
+    #approach { background: var(--white); }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .pillar {
+      padding: 2rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .pillar:hover { border-color: var(--rose-mid); transform: translateY(-2px); }
+    .pillar-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--rose-light);
+      line-height: 1;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    .pillar h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .pillar p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── TEAM ── */
+    #team { background: var(--charcoal); }
+    #team .section-label { color: var(--rose-mid); }
+    #team .section-title { color: var(--white); }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .team-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 2.5rem 2rem;
+      border-radius: 2px;
+    }
+    .team-card-role {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose-mid);
+      margin-bottom: 0.8rem;
+    }
+    .team-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .team-card-title {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .team-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.65rem;
+      background: rgba(139,26,74,0.25);
+      border: 1px solid rgba(181,38,79,0.4);
+      color: rgba(255,255,255,0.75);
+      border-radius: 2px;
+    }
+    .team-card p { font-size: 0.9rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+    /* ── GET INVOLVED ── */
+    #contact { background: var(--rose-pale); }
+
+    .contact-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--rose);
+      padding: 2.5rem 2.5rem;
+      margin-top: 2.5rem;
+      max-width: 600px;
+    }
+    .contact-box p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .contact-box a {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--rose);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--rose);
+      transition: opacity 0.2s;
+    }
+    .contact-box a:hover { opacity: 0.7; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    footer .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    footer p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .hero { padding: 90px 1.25rem 60px; }
+      section { padding: 60px 1.25rem; }
+      .contact-box { padding: 1.75rem 1.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .signal-line .pulse { animation: none; stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-brand" href="#">ClearSignal Health</a>
+    <div class="nav-links">
+      <a href="https://uraman3.github.io/" style="font-size:0.78rem; opacity:0.7;">← Portfolio</a>
+      <a href="#problem">The Problem</a>
+      <a href="#approach">Our Approach</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Get Involved</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">AI · Breast Cancer Awareness · Community Health Literacy</p>
+    <h1>Clear<span>Signal</span><br>Health</h1>
+
+    <!-- ECG / signal waveform — signature element -->
+    <svg class="signal-line" viewBox="0 0 480 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path class="pulse" d="
+        M0,24 L60,24 L72,24 L80,6 L90,42 L100,10 L110,38 L118,24
+        L160,24 L172,24 L180,8 L188,40 L196,14 L204,36 L210,24
+        L260,24 L270,24 L278,4 L288,44 L298,8 L308,40 L316,24
+        L380,24 L390,24 L398,10 L406,38 L414,16 L422,34 L428,24
+        L480,24
+      "/>
+    </svg>
+
+    <p class="hero-tagline">
+      Bridging the gap between <strong>AI-driven cancer detection</strong> and the communities it is meant to serve — through education, advocacy, and health literacy.
+    </p>
+    <div class="hero-meta">
+      <span><span class="dot"></span>Founded 2026</span>
+      <span><span class="dot"></span>Issaquah, Washington</span>
+      <span><span class="dot"></span>Pacific Northwest</span>
+    </div>
+  </div>
+
+  <!-- THE PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <p class="section-label">The Problem</p>
+      <h2 class="section-title">AI is reshaping cancer<br>care. Most patients don't know it.</h2>
+      <p class="section-body">
+        AI-assisted tools for breast cancer screening — mammography analysis, risk stratification models, imaging interpretation — are being deployed across major health systems at an accelerating pace. Yet the communities these tools are meant to serve remain largely uninformed: about how these systems work, what their limitations are, and how to advocate for equitable, accurate care.
+      </p>
+      <p class="section-body" style="margin-top:1rem;">
+        Women of color, underinsured women, and those outside major research centers face documented disparities in both breast cancer outcomes and AI model accuracy. The bottleneck is not the technology — it is literacy, access, and accountability.
+      </p>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-number">1 in 8</div>
+          <div class="stat-label">U.S. women will be diagnosed with breast cancer in their lifetime</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">~40%</div>
+          <div class="stat-label">Of U.S. mammography centers now use AI-assisted reading tools</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">&lt;10%</div>
+          <div class="stat-label">Of patients report understanding how AI is used in their imaging results</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Sig.</div>
+          <div class="stat-label">Performance gaps in AI models across race and skin tone documented in peer-reviewed research</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR APPROACH -->
+  <section id="approach">
+    <div class="container">
+      <p class="section-label">Our Approach</p>
+      <h2 class="section-title">Four ways we close the gap</h2>
+      <p class="section-body">
+        ClearSignal Health delivers community-rooted programs that move women from passive recipients of AI-assisted care to informed, empowered advocates.
+      </p>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <h3>AI Health Literacy Workshops</h3>
+          <p>Community sessions that demystify AI in breast cancer screening — what it detects, where it falls short, and how to ask better questions of your care team.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <h3>ClearSignal Resource Hub</h3>
+          <p>Plain-language digital resources translating current AI breast cancer research for patients, caregivers, and community health workers — without the jargon.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <h3>Policy Literacy Sessions</h3>
+          <p>Education for community leaders and advocates on the regulatory landscape governing AI medical tools — who is accountable, and how to engage the systems that shape care.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04</div>
+          <h3>Train-the-Trainer Basecamps</h3>
+          <p>Scalable programs embedding health AI literacy in existing community organizations, clinics, and advocacy groups across the Pacific Northwest.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="container">
+      <p class="section-label">Our Team</p>
+      <h2 class="section-title">Built from the inside out</h2>
+      <div class="team-grid">
+
+        <div class="team-card">
+          <p class="team-card-role">Co-Founder · Community & Policy Lead</p>
+          <h3>Usha Raman</h3>
+          <p class="team-card-title">Senior Technical Program Manager, Microsoft Azure</p>
+          <div class="team-tags">
+            <span class="tag">Cloud Infrastructure</span>
+            <span class="tag">AI Governance</span>
+            <span class="tag">Cybersecurity Policy</span>
+            <span class="tag">Georgia Tech OMS</span>
+          </div>
+          <p>12+ years leading cloud and AI programs at Microsoft scale. Brings enterprise-level AI governance expertise, cybersecurity policy training, and the lived perspective of a breast cancer survivor from a family shaped by the disease.</p>
+        </div>
+
+        <div class="team-card">
+          <p class="team-card-role">Co-Founder · Research & Data Science Lead</p>
+          <h3>Research Lead</h3>
+          <p class="team-card-title">UPenn Graduate · Public Health & Data Science</p>
+          <div class="team-tags">
+            <span class="tag">Oncology Research</span>
+            <span class="tag">Data Science</span>
+            <span class="tag">Public Health</span>
+            <span class="tag">CAR-T Research</span>
+          </div>
+          <p>Oncology researcher studying tumor cell responses to radiation therapy and identifying novel CAR-T therapy targets at the Koumenis Lab, UPenn. Translates bench-level cancer science into population-level insight and public health strategy.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- GET INVOLVED -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">Get Involved</p>
+      <h2 class="section-title">Help us build this.</h2>
+      <p class="section-body">
+        We are actively building our first community partnerships and planning our pilot workshop in the Issaquah and greater Eastside Seattle area. If you are a patient advocate, community health worker, researcher, or someone who simply believes women deserve to understand the AI shaping their care — we want to hear from you.
+      </p>
+      <div class="contact-box">
+        <p>Whether you want to host a workshop, partner with us, share your experience, or stay informed as we grow — reach out.</p>
+        <div class="contact-links">
+          <a href="mailto:your-email@email.com">Contact Us →</a>
+          <a href="https://linkedin.com/in/ramanusha" target="_blank" rel="noopener">Connect on LinkedIn →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">ClearSignal Health</div>
+    <p>Issaquah, Washington · Founded 2026 · In partnership with community</p>
+  </footer>
+
+</body>
+</html>
